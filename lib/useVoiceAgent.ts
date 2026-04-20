@@ -16,8 +16,10 @@ interface UseVoiceAgentOptions {
   backendUrl?: string;
 }
 
+// If NEXT_PUBLIC_BACKEND_URL is set, hit that (standalone FastAPI).
+// Otherwise hit the same-origin Next.js route at /api/chat (Vercel-native).
 const DEFAULT_BACKEND =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+  process.env.NEXT_PUBLIC_BACKEND_URL || "";
 
 function nowTime(): string {
   const d = new Date();
@@ -101,7 +103,10 @@ export function useVoiceAgent({ lang, backendUrl = DEFAULT_BACKEND }: UseVoiceAg
     setLastWasSilent(false);
 
     try {
-      const res = await fetch(`${backendUrl}/chat`, {
+      // Same-origin Next.js route (`/api/chat`) when backendUrl is empty,
+      // otherwise the standalone FastAPI microservice (`<url>/chat`).
+      const endpoint = backendUrl ? `${backendUrl}/chat` : `/api/chat`;
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
