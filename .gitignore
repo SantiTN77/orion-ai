@@ -1,0 +1,34 @@
+# deps
+node_modules/
+
+# next
+.next/
+out/
+build/
+
+# local env
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# python backend
+backend/.venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+
+# misc
+.DS_Store
+npm-debug.log*
+error.txt
+models.json
+start_all.py
+start_backend.bat
+start_frontend.bat
+open_browser.bat
